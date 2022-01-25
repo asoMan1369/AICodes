@@ -1,0 +1,47 @@
+import numpy as np
+from matplotlib import pyplot as plt
+N = 100
+xp = np.array([np.random.normal(10,2,N),np.random.normal(12,2,N)])
+xn = np.array([np.random.normal(5,5,N),np.random.normal(7,5,N)])
+
+Y =  np.ones((2*N,1))
+Y[0:N] = 0
+
+x = np.hstack((xp,xn))
+x = np.vstack((x,np.ones((1,2*N)))).T
+
+
+plt.scatter(x[:,0],x[:,1],c=Y)
+plt.show()
+
+
+
+
+
+
+def sigmoid(z):
+    return 1/(1+np.exp(-z))
+
+def gradient(w,x,y):
+    M = x.shape[0]
+    error= sigmoid(x.dot(w))-y
+    grad = (-1/M)*2* x.T @ error
+    return grad
+            
+# f(x) = ax + by + c
+w = np.zeros((3,1))
+alpha = 0.01
+
+for iters in range(100000):
+    g = gradient(w,x,Y)
+    w = w - alpha * g
+#f(x1,x2) = ax1 + bx+c
+#x2 = -ax -c/b
+x1 =np.array([-1,20])
+x2 = (-w[0]*x1 - w[2])/w[1]
+
+plt.scatter(x[:,0],x[:,1],c=Y)
+plt.plot(x1,x2,color='red')
+plt.show()
+print(x1)
+print(x2)
