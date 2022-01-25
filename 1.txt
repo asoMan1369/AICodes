@@ -1,0 +1,40 @@
+import numpy as np
+from matplotlib import pyplot as plt
+# x = np.arange(0,10,1)
+# x=x.reshape(10,1)
+# y = np.sin(x) + 0.1*x**2 + 0.6*np.random.randn(10,1)
+# x= x/x.max()
+# x = np.hstack((x,np.ones(x.shape)))
+# plt.scatter(x[:,0],y)
+# plt.show();
+
+x = np.arange(0,10,0.1)
+x = x.reshape(100,1)
+y = np.sin(x) + 0.1*x**2 + 0.6*np.random.randn(100,1)
+x= x/x.max()
+x= np.hstack((x,x**2,x**3,x**4,np.ones(x.shape)))
+plt.scatter(x[:,0],y)
+plt.show()
+
+
+from IPython.display import clear_output
+    
+
+w = np.random.randn(5)
+alpha = 0.1
+
+def gradient(w,x,y):
+    t=x.dot(w).flatten()
+    error = (y.flatten() - t)
+    M = len(x)
+    mse = (1/M)*(error**2).sum()
+    grad = -1/M * 2*error.dot(x)
+    return mse,grad
+
+for iters in range(10000):
+    mse,grad = gradient(w,x,y)
+    w = w - alpha*grad
+    # clear_output(wait=True)
+plt.plot(x[:,0],x.dot(w),c='r') 
+plt.scatter(x[:,0],y,c="b")
+plt.show()
